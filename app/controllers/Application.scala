@@ -8,16 +8,20 @@ import models._
 
 object Application extends Controller {
 
+	/* Splash Page & Search */
   def index = Action {
-    
-    val sexy = new Multiverse("goog")
-    sexy.sendGet()
-    Ok(views.html.index("Your new application is ready."))
-
+    Ok(views.html.index("Welcome to Bloomberg.sexy"))
   }
-
+  /* Company's Sexy Profile 
+		   - takes a company's stock symbal as arg
+		   - generates content with multiverse api getter
+  */
   def sexy(id: String) = Action {
-  	Ok(views.html.index(id))
+  	// Company object
+    val company = new Multiverse("goog")
+    sexy.sendGet()
+  	
+  	Ok(views.html.sexy(id))
   } 
 
 
