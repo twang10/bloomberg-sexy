@@ -1,9 +1,10 @@
 package models;
 
+import java.util.*;
 
-@Entity
-public class Multiverse extends Model {
-    string stockSymbol
+
+public class Multiverse{
+    public String stockSymbol;
     
     public Multiverse(String symbol) {
         this.stockSymbol = symbol;
