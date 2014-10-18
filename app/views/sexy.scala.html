@@ -1,7 +1,7 @@
-@(message: String)
+@(company: Multiverse)
 
-@main("Welcome to Play") {
+@main(company.stockSymbol) {
 
-    @play20.welcome(message)
+    @play20.welcome(company.bloombergRes)
 
 }

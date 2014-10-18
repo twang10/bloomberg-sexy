@@ -12,6 +12,7 @@ object Application extends Controller {
   def index = Action {
     Ok(views.html.index("Welcome to Bloomberg.sexy"))
   }
+
   /* Company's Sexy Profile 
 		   - takes a company's stock symbal as arg
 		   - generates content with multiverse api getter
@@ -19,9 +20,9 @@ object Application extends Controller {
   def sexy(id: String) = Action {
   	// Company object
     val company = new Multiverse("goog")
-    sexy.sendGet()
+    // company.sendGet()
   	
-  	Ok(views.html.sexy(id))
+  	Ok(views.html.sexy(company))
   } 
 
 
