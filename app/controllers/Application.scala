@@ -19,7 +19,7 @@ object Application extends Controller {
   */
   def sexy(id: String) = Action {
   	// Company object
-    val company = new Multiverse("goog")
+    val company = new Multiverse(id)
     // company.sendGet()
   	
   	Ok(views.html.sexy(company))
