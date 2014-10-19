@@ -39,7 +39,7 @@
 		</div>
 		<div class="col-md-12">
 			<ul class="cbp-rfgrid">
-				<li class="app">
+				<li class="app" style="overflow:scroll !important">
 					<!-- Twitter -->
 					@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
 				</li>
@@ -53,6 +53,15 @@
 				</li>
 				<li class="app">
 					<p>@Html(company.wikiSnippet)</p>
+				</li>
+				<li class="app">
+					<h4>Reddit comment on company</h4><h5>@company.redditComment</h5>
+				</li>
+				<li class="app">
+					<h4>@company.movieString</h4>
+					@for( movie <- company.movieList) {
+						<p>@movie</p>
+					}
 				</li>
 			</ul>
 		</div>
