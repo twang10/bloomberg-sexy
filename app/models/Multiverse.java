@@ -240,7 +240,9 @@ public class Multiverse{
             response.append(inputLine);
         }
         in.close();
-        this.bitcoinPrice = response;
+        this.bitcoinPrice = Double.parseDouble(response.toString());
         System.out.println(response);
     }
+    
+    
 }
