@@ -32,6 +32,7 @@
 				<li> @for(tweet <- company.tweets) { @tweet <br><br> }</li>
 				<li><img src="@company.giphyURL"></li>
 				<li>@Html(company.wikiSnippet)</li>
+				<li>Here's the bitcoin price: $@company.bitcoinPrice</li>
 
 			</ul>
 		</div>
