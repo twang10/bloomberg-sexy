@@ -1,0 +1,25 @@
+input {
+  width: 90%;
+}
+
+a.tt-suggestion, .empty-message, .tt-suggestion {
+  top: 10px!important;
+  padding: 5px 10px!important;
+  text-align: left!important;
+  background-color: white!important;
+  color: black!important;
+  border-bottom: solid 1px #005fab;
+  display:block
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.tt-dropdown-menu {
+  width:100%;        
+}
+
+.search {
+  color: black!important;
+}

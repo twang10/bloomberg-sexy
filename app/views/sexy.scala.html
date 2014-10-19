@@ -13,7 +13,39 @@
 		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/default.css")" />
 		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/component.css")" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<script src="@routes.Assets.at("js/modernizr.custom.js")"></script>
+		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
+		<script src="@routes.Assets.at("js/jquery.min.js")"></script>
+		<script src="@routes.Assets.at("js/bloodhound.min.js")"></script>
+		<script src="@routes.Assets.at("js/typeahead.jquery.min.js")"></script>
+		<script src="@routes.Assets.at("js/typeahead.bundle.min.js")"></script>
+		<script>
+			$(document).ready(function() {
+				var companies = new Bloodhound({
+				    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+				    queryTokenizer: Bloodhound.tokenizers.whitespace,
+				    limit: 100,
+				    prefetch: {
+				      url: '@routes.Assets.at("js/companies.json")'
+				    }
+				});
+				companies.initialize();
+				$('#prefetch .typeahead').typeahead({
+	        		highlight: true,
+	        		hint: true
+	      		}, {
+	        		name: 'companies',
+	        		displayKey: 'Name',
+	        		source: companies.ttAdapter(),
+	        		templates: {
+			          empty: ['<div class="empty-message">', 'unable to find any teams that match the current query', '</div>'].join('\n'),
+			          suggestion: function(datum) {
+			            return "<p class='search'></p><a href='/" + datum.Symbol + "'><p>" + datum.Name + "</span></p></a>";
+			          }
+	        		}
+	      		});
+	      	});
+		</script>
+
 	</head>
 	<body>
 		<nav class="navbar" role="navigation">
@@ -22,12 +54,9 @@
       					<a class="navbar-brand" style="color:#fff" href="#">Bloomberg.sexy</a>
     				</div>
     				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      					<form class="navbar-form navbar-right" role="search">
-        					<div class="form-group">
-        	  					<input type="text" class="form-control" placeholder="Search">
-        					</div>
-        					<button type="submit" class="btn btn-default">Submit</button>
-      					</form>
+					<div id="prefetch">
+	  					<input class="typeahead" type="text" placeholder="Search Companies..">
+					</div>
     				</div>
   			</div>
 		</nav>
@@ -38,8 +67,9 @@
 			</header>
 		</div>
 		<div class="col-md-12">
+
 			<ul class="cbp-rfgrid">
-				<li class="app">
+				<li class="app" style="overflow:scroll !important">
 					<!-- Twitter -->
 					@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
 				</li>
@@ -53,6 +83,15 @@
 				</li>
 				<li class="app">
 					<p>@Html(company.wikiSnippet)</p>
+				</li>
+				<li class="app">
+					<h4>Reddit comment on company</h4><h5>@company.redditComment</h5>
+				</li>
+				<li class="app">
+					<h4>@company.movieString</h4>
+					@for( movie <- company.movieList) {
+						<p>@movie</p>
+					}
 				</li>
 			</ul>
 		</div>
