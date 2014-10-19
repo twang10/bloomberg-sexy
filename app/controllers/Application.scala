@@ -24,6 +24,7 @@ object Application extends Controller {
     company.init()
     company.getTwitter();
     company.getGiphy();
+    company.getWiki();
   	
   	Ok(views.html.sexy(company))
   } 
