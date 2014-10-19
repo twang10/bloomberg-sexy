@@ -1,1 +1,1 @@
-web: /index.html -Dhttp.port=${PORT} ${JAVA_OPTS}
+web: index.html -Dhttp.port=${PORT} ${JAVA_OPTS}
