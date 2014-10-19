@@ -4,8 +4,8 @@
 <html lang="en" class="no-js">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sexy @company.stockName</title>
 		<meta name="description" content="HACKNY Hack by Abdi, Nick and Tom" />
 		<meta name="author" content="HACKNY Bloomberg.sexy" />
@@ -79,10 +79,10 @@
 				<li class="app">
 					<!--GIF-->
 					<h1>Giphy</h1>
-					<img src=@company.giphyURL height="300px" width="300px">
+					@for(gif <- company.giphyURL) { <img src='@gif' height="300px" width="300px"> }
 				</li>
 				<li class="app">
-					<h1>Reddit</h1><span class="twitter">Recent comment on @company.stockName <br></br>@company.redditComment</span>
+					<h1>Reddit</h1><span class="twitter">Recent comment on @company.stockName <br></br>@Html(company.redditComment)</span>
 				</li>
 				<li class="app">
 					<!-- BitCoin -->
@@ -94,7 +94,7 @@
 				</li>
 				<li class="app">
 					<h1>New York Times</h1>
-					<span class="twitter">@Html(company.NYT)</span>
+					<span class="twitter">Article on @company.stockName: <br> @Html(company.NYT)</span>
 				</li>
 				<li class="app">
 					<h1>Wikipedia</h1>
