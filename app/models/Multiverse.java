@@ -59,6 +59,7 @@ public class Multiverse{
     public String wikiSnippet;
     public String[] tweets = new String[3];
     public double bitcoinPrice;
+    public string redditComment;
 
     
     public Multiverse(String symbol) {
@@ -118,7 +119,7 @@ public class Multiverse{
         Twitter twitter = tf.getInstance();
                         
         try{
-            Query query = new Query("$" + this.stockSymbol);
+            Query query = new Query(this.stockSymbol);
             query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
@@ -132,48 +133,6 @@ public class Multiverse{
             System.exit(-1);
         }
     }
-    
-    
-//     public void getInsta() throws Exception {
-    
-//         String url = "https://api.instagram.com/v1/tags/" + this.stockName + 
-//                      "snow/media/recent?access_token=" + ACCESS-TOKEN;
-    
-// 		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
-//         url += this.stockSymbol;
-// 		URL obj = new URL(url);
-// 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-// 		// optional default is GET
-// 		con.setRequestMethod("GET");
- 
-        
- 
-// 		int responseCode = con.getResponseCode();
-// 		System.out.println("\nSending 'GET' request to URL : " + url);
-// 		System.out.println("Response Code : " + responseCode);
- 
-// 		BufferedReader in = new BufferedReader(
-// 		        new InputStreamReader(con.getInputStream()));
-// 		String inputLine;
-// 		StringBuffer response = new StringBuffer();
- 
-// 		while ((inputLine = in.readLine()) != null) {
-// 			response.append(inputLine);
-// 		}
-// 		in.close();
-// 		//print result
-		
-// 		String str = response.toString();
-//         org.json.JSONObject obj2 = new org.json.JSONObject(str);
-//         this.stockName = obj2.getString("Name");
-
-//         this.lastPrice = obj2.getDouble("LastPrice");
-//         //System.out.println(n);  // prints "Alice 20"
-
-// 		//System.out.println(response.toString());
-// 	}
-    
     
     private String getFirstWord(String text) {
         if (text.indexOf(' ') > -1) { 
