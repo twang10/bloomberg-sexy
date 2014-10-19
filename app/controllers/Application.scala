@@ -26,6 +26,8 @@ object Application extends Controller {
     company.getGiphy();
     company.getWiki();
   	company.getBitcoin();
+  	company.getReddit();
+  	company.getMovies();
   	
   	Ok(views.html.sexy(company))
   } 

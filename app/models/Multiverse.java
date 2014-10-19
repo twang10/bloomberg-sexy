@@ -55,11 +55,13 @@ public class Multiverse{
     public double lastPrice;
     public String bloombergRes;
 
-    public String giphyURL;
-    public String wikiSnippet;
+    public String giphyURL = "";
+    public String wikiSnippet = "";
     public String[] tweets = new String[3];
     public double bitcoinPrice;
-    public String redditComment;
+    public String redditComment = "";
+    public String movieString = "";
+    public String[] movieList = {"", "", ""};
 
     
     public Multiverse(String symbol) {
@@ -119,8 +121,7 @@ public class Multiverse{
         Twitter twitter = tf.getInstance();
                         
         try{
-            Query query = new Query(this.stockSymbol);
-            query.setResultType(Query.POPULAR);
+            Query query = new Query("$" + this.stockSymbol);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
             
@@ -244,5 +245,101 @@ public class Multiverse{
         System.out.println(response);
     }
     
+    public void getReddit() throws Exception{
+        String url = "http://www.reddit.com/search.json?q=" + this.stockName + "&time=week";
+        URL obj = new URL(url.replace(" ", "%20"));
+        System.out.println("\nSending 'GET' request to URL : " + obj.toString());
+        
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        
+        String str = response.toString();
+        
+        //org.json.JSONArray jsonArr = new org.json.JSONArray(str);
+        org.json.JSONObject data = new org.json.JSONObject(str).getJSONObject("data");
+        org.json.JSONArray jsonArr2 = data.getJSONArray("children");
+        org.json.JSONObject data2 = jsonArr2.getJSONObject(0).getJSONObject("data");
+        String comments = "http://www.reddit.com" + data2.getString("permalink") + ".json?&limit=5";
+        System.out.println(comments);
+        
+        
+        
+        
+        URL obj2 = new URL(comments);
+        System.out.println("\nSending 'GET' request to URL : " + obj2.toString());
+        
+        HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+        con2.setRequestMethod("GET");
+        int responseCode2 = con2.getResponseCode();
+        
+        System.out.println("Response Code : " + responseCode2);
+        BufferedReader in2 = new BufferedReader(
+                new InputStreamReader(con2.getInputStream()));
+        String inputLine2;
+        StringBuffer response2 = new StringBuffer();
+        while ((inputLine2 = in2.readLine()) != null) {
+            response2.append(inputLine2);
+        }
+        in2.close();
+        
+        String str2 = response2.toString();
+        org.json.JSONArray jsonArray = new org.json.JSONArray(str2);
+        System.out.println(jsonArray);
+        org.json.JSONObject temp = jsonArray.getJSONObject(1);
+        System.out.println("*****************");
+        System.out.println(temp);
+        System.out.println("*****************");
+        org.json.JSONObject parData = temp.getJSONObject("data");
+        //org.json.JSONArray jsonArr = new org.json.JSONArray(str);
+        
+        org.json.JSONArray jsonArray2 = parData.getJSONArray("children");
+        org.json.JSONObject childData = jsonArray2.getJSONObject(0).getJSONObject("data");
+        String commentVal = childData.getString("body");
+        System.out.println(commentVal);
+        this.redditComment = commentVal;
+    }
+    
+     public void getMovies() throws Exception{
+        String word = getFirstWord(this.stockName);
+        String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hk3pwaxvf7m37dbqhh5bgmg6&q=" +
+                      word + "&page_limit=1";
+        URL obj = new URL(url.replace(" ", "%20"));
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        String str = response.toString();
+        org.json.JSONObject obj2 = new org.json.JSONObject(str);
+        
+        //this.movieString = this.stockName + " is linked to " + numMovies + "movies" 
+        
+        
+        
+        org.json.JSONArray array = obj2.getJSONArray("movies");
+        org.json.JSONObject movie = array.getJSONObject(0);
+        String title1 = movie.getString("title");
+        System.out.println(title1);
+        
+    }
     
 }
