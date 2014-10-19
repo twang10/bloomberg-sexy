@@ -370,9 +370,13 @@ public class Multiverse{
         org.json.JSONObject res = obj2.getJSONObject("response");
         org.json.JSONArray docs = res.getJSONArray("docs");
         String snippet = docs.getJSONObject(0).getString("snippet");
-        System.out.println(snippet);
+        String link = docs.getJSONObject(0).getString("web_url");
+        
         this.NYT = "The latest article in the news about " + this.stockName + " said:" + 
-                    snippet;
+                    snippet + "<br/> link: " + link;
+        
+        System.out.println(this.NYT);
+                    
         
     }
     
