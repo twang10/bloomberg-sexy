@@ -151,13 +151,21 @@ a:hover {
 	background-color: #eee;
 	border-radius: 5px;
 	padding:5px;
-	width: 24.2%!important;
-	height: 300px !important;
+	min-height: 150px !important;
 	overflow: scroll;
 	margin:5px;
+	width: 100%;
 }
 
 img {
 	max-width: 100%;
 	height: auto;
+}
+
+.twitter {
+	font-size: 24px;
+}
+
+.wiki {
+	font-size: 24px;
 }

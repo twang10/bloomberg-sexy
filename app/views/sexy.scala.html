@@ -6,7 +6,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>Bloomberg.sexy: @company.stockName</title>
+		<title>Sexy @company.stockName</title>
 		<meta name="description" content="HACKNY Hack by Abdi, Nick and Tom" />
 		<meta name="author" content="HACKNY Bloomberg.sexy" />
 		<link rel="shortcut icon" href="/images/favicon.png">
@@ -51,7 +51,7 @@
 		<nav class="navbar navbar-default" role="navigation">
   			<div class="container-fluid">
     				<div class="navbar-header">
-      					<a class="navbar-brand" style="color:#000" href="#">Bloomberg.sexy</a>
+      					<a class="navbar-brand" style="color:#000;" href="#"><span style="font-weight: bold;"> Bloomberg.sexy</span> <span style="color: grey;">get intimate with your investments</span></a>
     				</div>
     				<form class="navbar-form navbar-right">
     				<div class="" id="bs-example-navbar-collapse-1">
@@ -64,7 +64,7 @@
 		</nav>
 		<div class="container">
 			<header class="clearfix">
-				<h1>@company.stockName</h1>
+				<h1>@company.stockName (@company.stockSymbol)</h1>
 				<h3>PRICE: $@company.lastPrice</h3>
 			</header>
 		</div>
@@ -73,40 +73,43 @@
 			<ul class="cbp-rfgrid">
 				<li class="app" style="overflow:scroll !important">
 					<!-- Twitter -->
-					<h4>Twitter</h4>
-					@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
-				</li>
-				<li class="app">
-					<!-- BitCoin -->
-					<h4>Bitcoin</h4>
-					<h1>@company.bitcoinPrice</h1>
+					<h1>Twitter</h1>
+					<span class="twitter">@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}</span>
 				</li>
 				<li class="app">
 					<!--GIF-->
-					<h4>Giphy</h4>
+					<h1>Giphy</h1>
 					<img src=@company.giphyURL height="300px" width="300px">
 				</li>
 				<li class="app">
-					<h4>Wikipedia</h4>
-					<p>@Html(company.wikiSnippet)</p>
+					<h1>Reddit</h1><span class="twitter">Recent comment on @company.stockName <br></br>@company.redditComment</span>
 				</li>
 				<li class="app">
-					<h4>Reddit</h4><h5>Recent comment on @company.stockName <br></br>@company.redditComment</h5>
+					<!-- BitCoin -->
+					<h1>Bitcoin</h1>
+					<h3>This is how many bitcoins a @company.stockName share costs: @company.bitcoinPrice</h3>
 				</li>
 				<li class="app">
-					<h4>Pixaby</h4><img src="@company.picture">
+					<h1>Pixaby</h1><img src="@company.picture">
 				</li>
 				<li class="app">
-					<h4>Rotten Tomatoes</h4>
-					<h4>@company.movieString</h4>
-					@for( movie <- company.movieList) {
-						<p>@movie</p>
-					}
+					<h1>New York Times</h1>
+					<span class="twitter">@Html(company.NYT)</span>
 				</li>
 				<li class="app">
-					<h4>New York Times</h4>
-					<h5>@Html(company.NYT)</h5>
+					<h1>Wikipedia</h1>
+					<p class="wiki">@Html(company.wikiSnippet)</p>
 				</li>
+				<li class="app">
+					<h1>Rotten Tomatoes</h1>
+					<h3>@company.movieString</h3>
+					<span class="twitter">
+						@for( movie <- company.movieList) {
+							<p>@movie</p>
+						}
+					</span>
+				</li>
+
 			</ul>
 		</div>
 	</body>
