@@ -55,11 +55,13 @@ public class Multiverse{
     public double lastPrice;
     public String bloombergRes;
 
-    public String giphyURL;
-    public String wikiSnippet;
+    public String giphyURL = "";
+    public String wikiSnippet = "";
     public String[] tweets = new String[3];
     public double bitcoinPrice;
-    public String redditComment;
+    public String redditComment = "";
+    public String movieString = "";
+    public String[] movieList = {"", "", ""};
 
     
     public Multiverse(String symbol) {
@@ -307,7 +309,37 @@ public class Multiverse{
         String commentVal = childData.getString("body");
         System.out.println(commentVal);
         this.redditComment = commentVal;
+    }
+    
+     public void getMovies() throws Exception{
+        String word = getFirstWord(this.stockName);
+        String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hk3pwaxvf7m37dbqhh5bgmg6&q=" +
+                      word + "&page_limit=1";
+        URL obj = new URL(url.replace(" ", "%20"));
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        String str = response.toString();
+        org.json.JSONObject obj2 = new org.json.JSONObject(str);
         
+        //this.movieString = this.stockName + " is linked to " + numMovies + "movies" 
+        
+        
+        
+        org.json.JSONArray array = obj2.getJSONArray("movies");
+        org.json.JSONObject movie = array.getJSONObject(0);
+        String title1 = movie.getString("title");
+        System.out.println(title1);
         
     }
     
