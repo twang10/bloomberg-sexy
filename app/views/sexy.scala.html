@@ -26,8 +26,8 @@
 				</form>
 			</header>	
 			<ul class="cbp-rfgrid">
-				<li><a href="#"><img src="@routes.Assets.at("/images/API.png")" /><div><h3>Cool API</h3></div></a></li>
-				<li><a href="#">@company.tweets(0)</a></li>
+				<!-- Twitter -->
+				<li> @for(tweet <- company.tweets) { @tweet <br><br> }</li>
 			</ul>
 		</div>
 	</body>

@@ -79,7 +79,7 @@ public class Multiverse{
 		System.out.println("Response Code : " + responseCode);
  
 		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
+		        			new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
  
@@ -103,7 +103,6 @@ public class Multiverse{
         System.out.println("starting get twitter");
         String stock = this.stockSymbol;
 
-
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
           .setOAuthConsumerKey("y8l2gv9Zxm2Kvq78PkGeI1y4K")
@@ -113,10 +112,7 @@ public class Multiverse{
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
                         
-        
-        
         try{
-
             Query query = new Query("$" + this.stockSymbol);
             query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
