@@ -121,7 +121,8 @@ public class Multiverse{
         Twitter twitter = tf.getInstance();
                         
         try{
-            Query query = new Query("$" + this.stockSymbol);
+            Query query = new Query(this.stockSymbol);
+            query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
             
@@ -313,7 +314,7 @@ public class Multiverse{
      public void getMovies() throws Exception{
         String word = getFirstWord(this.stockName);
         String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hk3pwaxvf7m37dbqhh5bgmg6&q=" +
-                      word + "&page_limit=1";
+                      word + "&page_limit=3";
         URL obj = new URL(url.replace(" ", "%20"));
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
@@ -330,16 +331,20 @@ public class Multiverse{
         in.close();
         String str = response.toString();
         org.json.JSONObject obj2 = new org.json.JSONObject(str);
+        //Integer.parseInt(jsonObj.get("id"));
+        //String numMovies = obj2.getString("total");
+        System.out.println("AAAAA: " + (obj2.get("total").getClass()));
+        int numMovies = (int)obj2.get("total");
+        this.movieString = this.stockName + " is linked to " + numMovies + "movies"; 
+        System.out.println(movieString);
         
-        //this.movieString = this.stockName + " is linked to " + numMovies + "movies" 
-        
-        
-        
-        org.json.JSONArray array = obj2.getJSONArray("movies");
-        org.json.JSONObject movie = array.getJSONObject(0);
-        String title1 = movie.getString("title");
-        System.out.println(title1);
-        
+        for(int i = 0; i < numMovies && i < 3; i++){
+            org.json.JSONArray array = obj2.getJSONArray("movies");
+            org.json.JSONObject movie = array.getJSONObject(i);
+            String title = movie.getString("title");
+            this.movieList[i] = title;
+            System.out.println(title);
+        }
     }
     
 }

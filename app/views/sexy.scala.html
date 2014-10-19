@@ -12,6 +12,7 @@
 		<link rel="shortcut icon" href="/images/favicon.png">
 		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/default.css")" />
 		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/component.css")" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
 		<script src="@routes.Assets.at("js/jquery.min.js")"></script>
 		<script src="@routes.Assets.at("js/bloodhound.min.js")"></script>
@@ -47,22 +48,51 @@
 
 	</head>
 	<body>
+		<nav class="navbar" role="navigation">
+  			<div class="container-fluid">
+    				<div class="navbar-header">
+      					<a class="navbar-brand" style="color:#fff" href="#">Bloomberg.sexy</a>
+    				</div>
+    				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<div id="prefetch">
+	  					<input class="typeahead" type="text" placeholder="Search Companies..">
+					</div>
+    				</div>
+  			</div>
+		</nav>
 		<div class="container">
-
 			<header class="clearfix">
-				<img src="@routes.Assets.at("images/logo.png")">
-				<h1>@company.stockName</h1>
-				<div id="prefetch">
-  					<input class="typeahead" type="text" placeholder="Search Companies..">
-				</div>
-			</header>	
-			<ul class="cbp-rfgrid">
-				<!-- Twitter -->
-				<li> @for(tweet <- company.tweets) { @tweet <br><br> }</li>
-				<li><img src="@company.giphyURL"></li>
-				<li>@Html(company.wikiSnippet)</li>
-				<li>Here's the bitcoin price: $@company.bitcoinPrice</li>
+				<h1>@company.stockSymbol</h1>
+				<span>$@company.lastPrice</span>
+			</header>
+		</div>
+		<div class="col-md-12">
 
+			<ul class="cbp-rfgrid">
+				<li class="app" style="overflow:scroll !important">
+					<!-- Twitter -->
+					@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
+				</li>
+				<li class="app">
+					<!-- BitCoin -->
+					<h1>Here's the bitcoin price:@company.bitcoinPrice</h1>
+				</li>
+				<li class="app">
+					<!--GIF-->
+					<img src=@company.giphyURL height="300px" width="300px">
+				</li>
+				<li class="app">
+					<p>@Html(company.wikiSnippet)</p>
+				</li>
+				<li class="app">
+					<h4>Reddit comment on company</h4><h5>@company.redditComment</h5>
+				</li>
+				<li class="app">
+					<h4>@company.movieString</h4>
+					@for( movie <- company.movieList) {
+						<p>@movie</p>
+					}
+				</li>
 			</ul>
 		</div>
 	</body>
