@@ -119,8 +119,7 @@ public class Multiverse{
         Twitter twitter = tf.getInstance();
                         
         try{
-            Query query = new Query(this.stockSymbol);
-            query.setResultType(Query.POPULAR);
+            Query query = new Query("$" + this.stockSymbol);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
             

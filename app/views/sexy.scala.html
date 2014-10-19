@@ -16,8 +16,10 @@
 	</head>
 	<body>
 		<div class="container">
+
 			<header class="clearfix">
 				<img src="@routes.Assets.at("images/logo.png")">
+				<h1>@company.stockName</h1>
 				<form role="form">
 					<div class="form-group">
                                 		<input type="text" class="form-control" placeholder="Search..." required>
@@ -28,6 +30,9 @@
 			<ul class="cbp-rfgrid">
 				<!-- Twitter -->
 				<li> @for(tweet <- company.tweets) { @tweet <br><br> }</li>
+				<li><img src="@company.giphyURL"></li>
+				<li>@Html(company.wikiSnippet)</li>
+
 			</ul>
 		</div>
 	</body>
