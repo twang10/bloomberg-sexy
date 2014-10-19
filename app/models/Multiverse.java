@@ -59,7 +59,7 @@ public class Multiverse{
     public String wikiSnippet;
     public String[] tweets = new String[3];
     public double bitcoinPrice;
-    public string redditComment;
+    public String redditComment;
 
     
     public Multiverse(String symbol) {
@@ -240,7 +240,7 @@ public class Multiverse{
             response.append(inputLine);
         }
         in.close();
-        
+        this.bitcoinPrice = response;
         System.out.println(response);
     }
 }
