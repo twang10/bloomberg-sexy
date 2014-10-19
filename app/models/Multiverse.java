@@ -63,7 +63,7 @@ public class Multiverse{
 	}
 	
 
-	private void run() throws Exception
+	public void run() throws Exception
     {
         
         int serverPort = 8194;

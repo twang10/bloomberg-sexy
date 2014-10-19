@@ -10,6 +10,7 @@ object Application extends Controller {
 
 	/* Splash Page & Search */
   def index = Action {
+
     Ok(views.html.index("Welcome to Bloomberg.sexy"))
   }
 
@@ -20,6 +21,7 @@ object Application extends Controller {
   def sexy(id: String) = Action {
   	// Company object
     val company = new Multiverse(id)
+    company.run
     // company.sendGet()
   	
   	Ok(views.html.sexy(company))
