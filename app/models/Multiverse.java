@@ -336,7 +336,7 @@ public class Multiverse{
         //String numMovies = obj2.getString("total");
         System.out.println("AAAAA: " + (obj2.get("total").getClass()));
         int numMovies = (int)obj2.get("total");
-        this.movieString = this.stockName + " is linked to " + numMovies + "movies"; 
+        this.movieString = this.stockName + " is linked to " + numMovies + " movies"; 
         System.out.println(movieString);
         
         for(int i = 0; i < numMovies && i < 3; i++){
