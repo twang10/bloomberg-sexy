@@ -244,5 +244,71 @@ public class Multiverse{
         System.out.println(response);
     }
     
+    public void getReddit() throws Exception{
+        String url = "http://www.reddit.com/search.json?q=" + this.stockName + "&time=week";
+        URL obj = new URL(url.replace(" ", "%20"));
+        System.out.println("\nSending 'GET' request to URL : " + obj.toString());
+        
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        
+        String str = response.toString();
+        
+        //org.json.JSONArray jsonArr = new org.json.JSONArray(str);
+        org.json.JSONObject data = new org.json.JSONObject(str).getJSONObject("data");
+        org.json.JSONArray jsonArr2 = data.getJSONArray("children");
+        org.json.JSONObject data2 = jsonArr2.getJSONObject(0).getJSONObject("data");
+        String comments = "http://www.reddit.com" + data2.getString("permalink") + ".json?&limit=5";
+        System.out.println(comments);
+        
+        
+        
+        
+        URL obj2 = new URL(comments);
+        System.out.println("\nSending 'GET' request to URL : " + obj2.toString());
+        
+        HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+        con2.setRequestMethod("GET");
+        int responseCode2 = con2.getResponseCode();
+        
+        System.out.println("Response Code : " + responseCode2);
+        BufferedReader in2 = new BufferedReader(
+                new InputStreamReader(con2.getInputStream()));
+        String inputLine2;
+        StringBuffer response2 = new StringBuffer();
+        while ((inputLine2 = in2.readLine()) != null) {
+            response2.append(inputLine2);
+        }
+        in2.close();
+        
+        String str2 = response2.toString();
+        org.json.JSONArray jsonArray = new org.json.JSONArray(str2);
+        System.out.println(jsonArray);
+        org.json.JSONObject temp = jsonArray.getJSONObject(1);
+        System.out.println("*****************");
+        System.out.println(temp);
+        System.out.println("*****************");
+        org.json.JSONObject parData = temp.getJSONObject("data");
+        //org.json.JSONArray jsonArr = new org.json.JSONArray(str);
+        
+        org.json.JSONArray jsonArray2 = parData.getJSONArray("children");
+        org.json.JSONObject childData = jsonArray2.getJSONObject(0).getJSONObject("data");
+        String commentVal = childData.getString("body");
+        System.out.println(commentVal);
+        this.redditComment = commentVal;
+        
+        
+    }
     
 }
