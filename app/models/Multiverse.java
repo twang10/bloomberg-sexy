@@ -340,7 +340,7 @@ public class Multiverse{
         //Integer.parseInt(jsonObj.get("id"));
         //String numMovies = obj2.getString("total");
         System.out.println("AAAAA: " + (obj2.get("total").getClass()));
-        int numMovies = (int)obj2.get("total");
+        int numMovies = (Integer)obj2.get("total");
         this.movieString = this.stockName + " is linked to " + numMovies + " movies, the top ones are: ";
         System.out.println(movieString);
 
@@ -403,7 +403,7 @@ public class Multiverse{
         in.close();
         String str = response.toString();
         org.json.JSONObject obj2 = new org.json.JSONObject(str);
-        int numPics = (int)obj2.get("totalHits");
+        int numPics = (Integer)obj2.get("totalHits");
         if(numPics > 0){
           org.json.JSONArray hits = obj2.getJSONArray("hits");
           String webURL = hits.getJSONObject(0).getString("webformatURL");
