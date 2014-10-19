@@ -54,7 +54,7 @@ public class Multiverse{
     public String stockName;
     public double lastPrice;
     public String bloombergRes;
-    String[] tweets = new String[3];
+    public String[] tweets = new String[3];
     
     public Multiverse(String symbol) {
         this.stockSymbol = symbol;
@@ -116,7 +116,8 @@ public class Multiverse{
         
         
         try{
-            Query query = new Query("$" + this.stockName);
+
+            Query query = new Query("$" + this.stockSymbol);
             query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
