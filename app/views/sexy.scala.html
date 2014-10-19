@@ -71,10 +71,14 @@
 		<div class="col-md-12">
 
 			<ul class="cbp-rfgrid">
-				<li class="app" style="overflow:scroll !important">
+				<li class="app flip-container" style="overflow:scroll !important" ontouchstart="this.classList.toggle('hover');">
 					<!-- Twitter -->
-					<h4>Twitter</h4>
-					@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
+					<div class="flipper">
+					<img src=@routes.Assets.at("images/API.png") class="front">
+					<div class="back">
+						<h4>Twitter</h4>
+						@for(tweet <- company.tweets) { <blockquote><p>@tweet</p></blockquote>}
+					</div>
 				</li>
 				<li class="app">
 					<!-- BitCoin -->
