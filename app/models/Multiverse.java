@@ -116,7 +116,7 @@ public class Multiverse{
         
         
         try{
-            Query query = new Query(this.stockName);
+            Query query = new Query("$" + this.stockName);
             query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
