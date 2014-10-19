@@ -27,7 +27,7 @@ import com.bloomberglp.blpapi.SessionOptions;
 public class Multiverse{
     public String stockSymbol;
     public String stockName;
-    public float lastPrice;
+    public double lastPrice;
     public String bloombergRes;
     
     public Multiverse(String symbol) {
@@ -38,9 +38,9 @@ public class Multiverse{
     
     // HTTP GET request
 	public void sendGet() throws Exception {
- 
-		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=AAPL";
- 
+    
+		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
+        url += this.stockSymbol;
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -68,7 +68,7 @@ public class Multiverse{
         JSONObject obj2 = new JSONObject(str);
         this.stockName = obj2.getString("Name");
 
-        this.lastPrice = Float.parseFloat(obj2.getString("LastPrice"));
+        this.lastPrice = obj2.getDouble("LastPrice");
         //System.out.println(n);  // prints "Alice 20"
 
 		//System.out.println(response.toString());
@@ -78,9 +78,6 @@ public class Multiverse{
     //     String stock = this.stockSymbol;
         
     // }
-	
-	
-	
     
     
 }
