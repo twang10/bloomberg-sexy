@@ -62,6 +62,7 @@ public class Multiverse{
     public String redditComment = "";
     public String movieString = "";
     public String[] movieList = {"", "", ""};
+    public String NYT;
 
     
     public Multiverse(String symbol) {
@@ -347,10 +348,10 @@ public class Multiverse{
         }
     }
     
-    public void getNYTimes() throws Exception{
+    public void getNYT() throws Exception{
         String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + 
         this.stockName + "&begin_date=20130101&end_date=20141018&api-key=77a7c6c23825ba8ad653d97b02edefd3%3A2%3A70027345";
-        URL obj = new URL(url);
+        URL obj = new URL((url.replace(" ", "%20")));
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         int responseCode = con.getResponseCode();
@@ -369,6 +370,9 @@ public class Multiverse{
         org.json.JSONObject res = obj2.getJSONObject("response");
         org.json.JSONArray docs = res.getJSONArray("docs");
         String snippet = docs.getJSONObject(0).getString("snippet");
+        System.out.println(snippet);
+        this.NYT = "The latest article in the news about " + this.stockName + " said:" + 
+                    snippet;
         
     }
     
