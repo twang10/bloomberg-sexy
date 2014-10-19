@@ -11,6 +11,18 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 
+
+import com.bloomberglp.blpapi.Element;
+import com.bloomberglp.blpapi.Event;
+import com.bloomberglp.blpapi.Message;
+import com.bloomberglp.blpapi.MessageIterator;
+import com.bloomberglp.blpapi.Request;
+import com.bloomberglp.blpapi.Service;
+import com.bloomberglp.blpapi.Session;
+import com.bloomberglp.blpapi.SessionOptions;
+
+
+
 public class Multiverse{
     public String stockSymbol;
     public String bloombergRes;
