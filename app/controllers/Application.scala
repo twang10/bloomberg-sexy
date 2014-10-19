@@ -21,8 +21,8 @@ object Application extends Controller {
   def sexy(id: String) = Action {
   	// Company object
     val company = new Multiverse(id)
-    //company.run
-    company.sendGet()
+    company.init()
+
   	
   	Ok(views.html.sexy(company))
   } 

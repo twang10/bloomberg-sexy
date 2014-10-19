@@ -32,12 +32,11 @@ public class Multiverse{
     
     public Multiverse(String symbol) {
         this.stockSymbol = symbol;
-        this.bloombergRes = "fake bloomberg response";
     }
     
     
     // HTTP GET request
-	public void sendGet() throws Exception {
+	public void init() throws Exception {
     
 		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
         url += this.stockSymbol;
