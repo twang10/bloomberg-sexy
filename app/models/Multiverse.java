@@ -336,7 +336,7 @@ public class Multiverse{
         //String numMovies = obj2.getString("total");
         System.out.println("AAAAA: " + (obj2.get("total").getClass()));
         int numMovies = (int)obj2.get("total");
-        this.movieString = this.stockName + " is linked to " + numMovies + "movies"; 
+        this.movieString = this.stockName + " is linked to " + numMovies + "movies. The top 3: "; 
         System.out.println(movieString);
         
         for(int i = 0; i < numMovies && i < 3; i++){
@@ -370,9 +370,13 @@ public class Multiverse{
         org.json.JSONObject res = obj2.getJSONObject("response");
         org.json.JSONArray docs = res.getJSONArray("docs");
         String snippet = docs.getJSONObject(0).getString("snippet");
-        System.out.println(snippet);
+        String link = docs.getJSONObject(0).getString("web_url");
+        
         this.NYT = "The latest article in the news about " + this.stockName + " said:" + 
-                    snippet;
+                    snippet + "<br/> link: " + link;
+        
+        System.out.println(this.NYT);
+                    
         
     }
     
