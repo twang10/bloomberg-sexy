@@ -29,6 +29,7 @@ object Application extends Controller {
   	company.getReddit();
   	company.getMovies();
   	company.getNYT();
+  	company.getPic();
   	
   	Ok(views.html.sexy(company))
   } 

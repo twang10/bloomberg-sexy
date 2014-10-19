@@ -63,6 +63,7 @@ public class Multiverse{
     public String movieString = "";
     public String[] movieList = {"", "", ""};
     public String NYT;
+    public String picture;
 
     
     public Multiverse(String symbol) {
@@ -376,7 +377,32 @@ public class Multiverse{
                     snippet + "<br/> link: " + link;
         
         System.out.println(this.NYT);
-                    
+    }
+    
+    public void getPic() throws Exception{
+        String name = getFirstWord(this.stockName);
+        String url = "http://pixabay.com/api/?username=nusoff01&key=95296a61e67cf1795196&search_term=" + name + 
+                        "&image_type=photo";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        String str = response.toString();
+        org.json.JSONObject obj2 = new org.json.JSONObject(str);
+        org.json.JSONArray hits = obj2.getJSONArray("hits");
+        String webURL = hits.getJSONObject(0).getString("webformatURL");
+        System.out.println(webURL);
+        this.picture = webURL;
         
     }
     
