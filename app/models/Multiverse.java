@@ -1,4 +1,29 @@
+
 package models;
+
+import twitter4j.*;
+import twitter4j.conf.*;
+
+import java.util.List;
+
+
+// import play.libs.F.Function;
+// import play.libs.F.Option;
+// import play.libs.F.Promise;
+// import play.libs.oauth.OAuth;
+// import play.libs.oauth.OAuth.ConsumerKey;
+// import play.libs.oauth.OAuth.OAuthCalculator;
+// import play.libs.oauth.OAuth.RequestToken;
+// import play.libs.oauth.OAuth.ServiceInfo;
+// import play.libs.ws.WSClient;
+// import play.libs.ws.WSResponse;
+// import play.mvc.Result;
+
+// import com.google.common.base.Strings;
+
+// import javax.inject.Inject;
+
+
 
 import java.util.*;
 import org.json.*;
@@ -64,7 +89,7 @@ public class Multiverse{
 		//print result
 		
 		String str = response.toString();
-        JSONObject obj2 = new JSONObject(str);
+        org.json.JSONObject obj2 = new org.json.JSONObject(str);
         this.stockName = obj2.getString("Name");
 
         this.lastPrice = obj2.getDouble("LastPrice");
@@ -73,10 +98,39 @@ public class Multiverse{
 		//System.out.println(response.toString());
 	}
 	
-    // public String getTwitter(){
-    //     String stock = this.stockSymbol;
+    public void getTwitter(){
+        System.out.println("starting get twitter");
+        String stock = this.stockSymbol;
+
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+          .setOAuthConsumerKey("y8l2gv9Zxm2Kvq78PkGeI1y4K")
+          .setOAuthConsumerSecret("WBMht3ezjYkWms2InMwgRhAuYwWBVKVVMNx4QokHmieantvbTY")
+          .setOAuthAccessToken("2179291328-OdLzCA4wITLwv3qkIxGaVnkZgJ2ljGDonnX3GOd")
+          .setOAuthAccessTokenSecret("wgiYcPVtIu02HxNUbKAsSJwawtnoiPumbHNbZ6jk4XeKs");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+                        
         
-    // }
+        
+        try{
+            Query query = new Query(this.stockName);
+            QueryResult result = twitter.search(query);
+            List<Status> tweets = result.getTweets();
+    
+            for(int i = 0; i < tweets.size(); i++){
+                System.out.println("@" + tweets.get(i).getUser().getScreenName() + ":" + tweets.get(i).getText());
+            }
+        
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to search tweets: " + te.getMessage());
+            System.exit(-1);
+        }
+        
+
+    }
     
     
 }
