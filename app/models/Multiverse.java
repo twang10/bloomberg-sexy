@@ -372,8 +372,8 @@ public class Multiverse{
         String snippet = docs.getJSONObject(0).getString("snippet");
         String link = docs.getJSONObject(0).getString("web_url");
         
-        this.NYT = "The latest article in the news about " + this.stockName + " said:" + 
-                    snippet + "<br/> link: " + link;
+        this.NYT = "<a href='" + link + "'>The latest article in the news about " + this.stockName + " said:" + 
+                    snippet + "</a>";
         
         System.out.println(this.NYT);
                     
