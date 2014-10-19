@@ -54,6 +54,7 @@ public class Multiverse{
     public String stockName;
     public double lastPrice;
     public String bloombergRes;
+    String[] tweets = new String[3];
     
     public Multiverse(String symbol) {
         this.stockSymbol = symbol;
@@ -116,12 +117,14 @@ public class Multiverse{
         
         try{
             Query query = new Query(this.stockName);
+            query.setResultType(Query.POPULAR);
             QueryResult result = twitter.search(query);
             List<Status> tweets = result.getTweets();
-    
-            for(int i = 0; i < tweets.size(); i++){
-                System.out.println("@" + tweets.get(i).getUser().getScreenName() + ":" + tweets.get(i).getText());
+            
+            for(int i = 0; i < 3; i++){
+                this.tweets[i] = "@" + tweets.get(i).getUser().getScreenName() + ":" + tweets.get(i).getText();
             }
+            
         
         } catch (TwitterException te) {
             te.printStackTrace();
