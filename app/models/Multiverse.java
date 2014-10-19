@@ -242,7 +242,7 @@ public class Multiverse{
             response.append(inputLine);
         }
         in.close();
-        this.bitcoinPrice = Double.parseDouble(response.toString());
+        this.bitcoinPrice = lastPrice / Double.parseDouble(response.toString());
         System.out.println(response);
     }
     
@@ -345,6 +345,31 @@ public class Multiverse{
             this.movieList[i] = title;
             System.out.println(title);
         }
+    }
+    
+    public void getNYTimes() throws Exception{
+        String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + 
+        this.stockName + "&begin_date=20130101&end_date=20141018&api-key=77a7c6c23825ba8ad653d97b02edefd3%3A2%3A70027345";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        String str = response.toString();
+        org.json.JSONObject obj2 = new org.json.JSONObject(str);
+        org.json.JSONObject res = obj2.getJSONObject("response");
+        org.json.JSONArray docs = res.getJSONArray("docs");
+        String snippet = docs.getJSONObject(0).getString("snippet");
+        
     }
     
 }
