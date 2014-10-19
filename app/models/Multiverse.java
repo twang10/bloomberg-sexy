@@ -54,6 +54,7 @@ public class Multiverse{
     public String stockName;
     public double lastPrice;
     public String bloombergRes;
+    public String giphyURL;
     String[] tweets = new String[3];
     
     public Multiverse(String symbol) {
@@ -124,15 +125,105 @@ public class Multiverse{
             for(int i = 0; i < 3; i++){
                 this.tweets[i] = "@" + tweets.get(i).getUser().getScreenName() + ":" + tweets.get(i).getText();
             }
-            
-        
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to search tweets: " + te.getMessage());
             System.exit(-1);
         }
-        
+    }
+    
+    
+//     public void getInsta() throws Exception {
+    
+//         String url = "https://api.instagram.com/v1/tags/" + this.stockName + 
+//                      "snow/media/recent?access_token=" + ACCESS-TOKEN;
+    
+// 		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
+//         url += this.stockSymbol;
+// 		URL obj = new URL(url);
+// 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
+// 		// optional default is GET
+// 		con.setRequestMethod("GET");
+ 
+        
+ 
+// 		int responseCode = con.getResponseCode();
+// 		System.out.println("\nSending 'GET' request to URL : " + url);
+// 		System.out.println("Response Code : " + responseCode);
+ 
+// 		BufferedReader in = new BufferedReader(
+// 		        new InputStreamReader(con.getInputStream()));
+// 		String inputLine;
+// 		StringBuffer response = new StringBuffer();
+ 
+// 		while ((inputLine = in.readLine()) != null) {
+// 			response.append(inputLine);
+// 		}
+// 		in.close();
+// 		//print result
+		
+// 		String str = response.toString();
+//         org.json.JSONObject obj2 = new org.json.JSONObject(str);
+//         this.stockName = obj2.getString("Name");
+
+//         this.lastPrice = obj2.getDouble("LastPrice");
+//         //System.out.println(n);  // prints "Alice 20"
+
+// 		//System.out.println(response.toString());
+// 	}
+    
+    
+    private String getFirstWord(String text) {
+        if (text.indexOf(' ') > -1) { 
+            return text.substring(0, text.indexOf(' ')); // Extract first word.
+        } else {
+            return text; // Text is the first word itself.
+        }
+    }
+    
+    public void getGiphy() throws Exception{
+        System.out.println("starting giphy");
+        
+        String word = getFirstWord(this.stockName);
+        //System.out.println(word);
+        String url = "http://api.giphy.com/v1/gifs/search?q=" + word + "&api_key=dc6zaTOxFJmzC";
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		// optional default 
+		con.setRequestMethod("GET");
+ 
+        
+ 
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'GET' request to URL : " + url);
+		System.out.println("Response Code : " + responseCode);
+ 
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+ 
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		//print result
+		
+		String str = response.toString();
+		
+		org.json.JSONObject obj2 = new org.json.JSONObject(str);
+		org.json.JSONArray jsonArr = obj2.getJSONArray("data"); 
+		org.json.JSONObject imJSON = jsonArr.getJSONObject(0);
+		this.giphyURL = imJSON.getJSONObject("images").getJSONObject("fixed_height").getString("url");
+        //this.giphyURL = obj2.meta.msg;
+		System.out.println(this.giphyURL);
+        
+        //System.out.println(n);  // prints "Alice 20"
+
+		//System.out.println(response.toString());
+        
     }
     
     

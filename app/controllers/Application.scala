@@ -23,6 +23,7 @@ object Application extends Controller {
     val company = new Multiverse(id)
     company.init()
     company.getTwitter();
+    company.getGiphy();
   	
   	Ok(views.html.sexy(company))
   } 
