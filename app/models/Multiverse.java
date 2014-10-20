@@ -44,7 +44,8 @@ public class Multiverse{
 
     /************************** Public Methods *******************************/
 
-    // i
+    // init gets the stock price and name from a stock symbol
+
     public void init() throws Exception {
         String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
         url += this.stockSymbol;
@@ -55,6 +56,9 @@ public class Multiverse{
         this.lastPrice = obj2.getDouble("LastPrice");
     }
 
+    /* getTwitter makes a call to the twitter API and sets the twitter variable
+     * using the response from the API
+     */
     public void getTwitter(){
         System.out.println("starting get twitter");
         String stock = this.stockSymbol;
@@ -89,6 +93,9 @@ public class Multiverse{
         }
     }
 
+    /* getGiphy makes a call to the Giphy API and sets values for the
+     * using the response from the API
+     */
     public void getGiphy() throws Exception{
         String word = getFirstWord(this.stockName);
         //System.out.println(word);
@@ -109,6 +116,9 @@ public class Multiverse{
         }
     }
 
+    /* getWiki makes a call to the Wikipedia API and sets the wiki variable
+     * using the response from the API
+     */
     public void getWiki() throws Exception{
         String word = getFirstWord(this.stockName);
         String url = "http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="
@@ -124,24 +134,11 @@ public class Multiverse{
     }
 
     public void getBitcoin() throws Exception{
-
         String url = "https://api.bitcoinaverage.com/ticker/USD/last";
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        this.bitcoinPrice = lastPrice / Double.parseDouble(response.toString());
-        System.out.println(response);
+        String str = requestResponse(obj);
+        this.bitcoinPrice = lastPrice / Double.parseDouble(str);
+        //System.out.println(response);
     }
 
     public void getReddit() throws Exception{
@@ -154,7 +151,6 @@ public class Multiverse{
         org.json.JSONArray jsonArr2 = data.getJSONArray("children");
         org.json.JSONObject data2 = jsonArr2.getJSONObject(0).getJSONObject("data");
         String comments = "http://www.reddit.com" + data2.getString("permalink") + ".json?&limit=10";
-        System.out.println(comments);
 
         URL obj2 = new URL(comments);
         String str2 = requestResponse(obj2);
@@ -181,19 +177,14 @@ public class Multiverse{
         URL obj = new URL(url.replace(" ", "%20"));
         String str = requestResponse(obj);
         org.json.JSONObject obj2 = new org.json.JSONObject(str);
-        //Integer.parseInt(jsonObj.get("id"));
-        //String numMovies = obj2.getString("total");
-        System.out.println("AAAAA: " + (obj2.get("total").getClass()));
         int numMovies = (Integer)obj2.get("total");
         this.movieString = this.stockName + " is linked to " + numMovies + " movies, the top ones are: ";
-        System.out.println(movieString);
 
         for(int i = 0; i < numMovies && i < 3; i++){
             org.json.JSONArray array = obj2.getJSONArray("movies");
             org.json.JSONObject movie = array.getJSONObject(i);
             String title = movie.getString("title");
             this.movieList[i] = title;
-            System.out.println(title);
         }
     }
 
@@ -216,8 +207,7 @@ public class Multiverse{
 
     public void getPic() throws Exception{
         String name = getFirstWord(this.stockName);
-        String url = "http://pixabay.com/api/?username=nusoff01&key=95296a61e67cf1795196&search_term=" + name +
-                        "&image_type=photo";
+        String url = "http://pixabay.com/api/?username=nusoff01&key=95296a61e67cf1795196&search_term=" + name + "&image_type=photo";
         URL obj = new URL(url);
         String str = requestResponse(obj);
         org.json.JSONObject obj2 = new org.json.JSONObject(str);
@@ -244,8 +234,6 @@ public class Multiverse{
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
