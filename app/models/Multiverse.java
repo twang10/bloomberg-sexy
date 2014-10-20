@@ -6,25 +6,6 @@ import twitter4j.conf.*;
 
 import java.util.List;
 
-
-// import play.libs.F.Function;
-// import play.libs.F.Option;
-// import play.libs.F.Promise;
-// import play.libs.oauth.OAuth;
-// import play.libs.oauth.OAuth.ConsumerKey;
-// import play.libs.oauth.OAuth.OAuthCalculator;
-// import play.libs.oauth.OAuth.RequestToken;
-// import play.libs.oauth.OAuth.ServiceInfo;
-// import play.libs.ws.WSClient;
-// import play.libs.ws.WSResponse;
-// import play.mvc.Result;
-
-// import com.google.common.base.Strings;
-
-// import javax.inject.Inject;
-
-
-
 import java.util.*;
 import org.json.*;
 
@@ -35,19 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-
-
-import com.bloomberglp.blpapi.Element;
-import com.bloomberglp.blpapi.Event;
-import com.bloomberglp.blpapi.Message;
-import com.bloomberglp.blpapi.MessageIterator;
-import com.bloomberglp.blpapi.Request;
-import com.bloomberglp.blpapi.Service;
-import com.bloomberglp.blpapi.Session;
-import com.bloomberglp.blpapi.SessionOptions;
-
-
 
 public class Multiverse{
     public String stockSymbol;
@@ -65,48 +33,41 @@ public class Multiverse{
     public String NYT = "";
     public String picture = "";
 
-
     public Multiverse(String symbol) {
         this.stockSymbol = symbol;
     }
 
-
     // HTTP GET request
-	public void init() throws Exception {
+	  public void init() throws Exception {
 
-		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
-        url += this.stockSymbol;
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+  		String url = "http://dev.markitondemand.com/API/v2/Quote/json?symbol=";
+          url += this.stockSymbol;
+  		URL obj = new URL(url);
+  		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		// optional default is GET
-		con.setRequestMethod("GET");
+  		// optional default is GET
+  		con.setRequestMethod("GET");
 
+  		int responseCode = con.getResponseCode();
+  		System.out.println("\nSending 'GET' request to URL : " + url);
+  		System.out.println("Response Code : " + responseCode);
 
+  		BufferedReader in = new BufferedReader(
+  		        			new InputStreamReader(con.getInputStream()));
+  		String inputLine;
+  		StringBuffer response = new StringBuffer();
 
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-		        			new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
+  		while ((inputLine = in.readLine()) != null) {
+  			response.append(inputLine);
+		  }
+		  in.close();
 		//print result
 
-		String str = response.toString();
-        org.json.JSONObject obj2 = new org.json.JSONObject(str);
-        this.stockName = obj2.getString("Name");
+      String str = response.toString();
+      org.json.JSONObject obj2 = new org.json.JSONObject(str);
+      this.stockName = obj2.getString("Name");
 
-        this.lastPrice = obj2.getDouble("LastPrice");
-        //System.out.println(n);  // prints "Alice 20"
-
-		//System.out.println(response.toString());
+      this.lastPrice = obj2.getDouble("LastPrice");
 	}
 
     public void getTwitter(){
@@ -156,50 +117,43 @@ public class Multiverse{
         String word = getFirstWord(this.stockName);
         //System.out.println(word);
         String url = "http://api.giphy.com/v1/gifs/search?q=" + word + "&api_key=dc6zaTOxFJmzC";
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+  		URL obj = new URL(url);
+  		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		// optional default
-		con.setRequestMethod("GET");
+  		// optional default
+  		con.setRequestMethod("GET");
 
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
+  		int responseCode = con.getResponseCode();
+  		System.out.println("\nSending 'GET' request to URL : " + url);
+  		System.out.println("Response Code : " + responseCode);
 
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+  		BufferedReader in = new BufferedReader(
+  		        new InputStreamReader(con.getInputStream()));
+  		String inputLine;
+  		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		//print result
+  		while ((inputLine = in.readLine()) != null) {
+  			response.append(inputLine);
+  		}
+  		in.close();
+  		//print result
 
-		String str = response.toString();
+  		String str = response.toString();
 
-		org.json.JSONObject obj2 = new org.json.JSONObject(str);
-		org.json.JSONArray jsonArr = obj2.getJSONArray("data");
-    if(jsonArr.length() != 0){
-      for(int i = 0; i < jsonArr.length() && i < 3; i++){
-    		org.json.JSONObject imJSON = jsonArr.getJSONObject(i);
-    		this.giphyURL[i] = imJSON.getJSONObject("images").getJSONObject("fixed_height").getString("url");
-            //this.giphyURL = obj2.meta.msg;
-    		System.out.println(this.giphyURL);
+  		org.json.JSONObject obj2 = new org.json.JSONObject(str);
+  		org.json.JSONArray jsonArr = obj2.getJSONArray("data");
+      if(jsonArr.length() != 0){
+        for(int i = 0; i < jsonArr.length() && i < 3; i++){
+      		org.json.JSONObject imJSON = jsonArr.getJSONObject(i);
+      		this.giphyURL[i] = imJSON.getJSONObject("images").getJSONObject("fixed_height").getString("url");
+              //this.giphyURL = obj2.meta.msg;
+      		System.out.println(this.giphyURL);
+        }
       }
     }
 
-        //System.out.println(n);  // prints "Alice 20"
-
-		//System.out.println(response.toString());
-
-    }
-
     public void getWiki() throws Exception{
-        System.out.println("starting Wiki");
         String word = getFirstWord(this.stockName);
-        //System.out.println(word);
         String url = "http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="
                       + this.stockName +"&srprop=snippet&format=json";
         URL obj = new URL(url.replace(" ", "%20"));
@@ -410,7 +364,5 @@ public class Multiverse{
           System.out.println(webURL);
           this.picture = webURL;
         }
-
     }
-
 }
