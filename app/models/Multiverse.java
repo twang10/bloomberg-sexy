@@ -1,20 +1,36 @@
+/*  THE MULTIVERSE CLASS
+ *  Created by: Nick Usoff, Tom Wang, and Abdisalan Mohamud
+ *  Last edited by: Nick Usoff
+ *  Last edited on: 10-21-2014
+ *
+ *  The Multiverse class is a collection of variables which represent data
+ *  collected on a stock. These data are collected by calling public functions
+ *  within the class which make calls to various APIs to get and manipulate
+ *  the data.
+ *
+ *  APIs used by this class:
+ *      - Markit
+ *      - Twitter
+ *      - Giphy
+ *      - Wikipedia
+ *      - Bitcoin Average
+ *      - Reddit
+ *      - Rotten Tomatoes
+ *      - New York Times
+ *      - Pixaby
+ */
 
 package models;
-
 import twitter4j.*;
 import twitter4j.conf.*;
-
 import java.util.List;
-
 import java.util.*;
 import org.json.*;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class Multiverse{
@@ -93,7 +109,7 @@ public class Multiverse{
         }
     }
 
-    /* getGiphy makes a call to the Giphy API and sets values for the
+    /* getGiphy makes a call to the Giphy API and sets values for the giphy arr
      * using the response from the API
      */
     public void getGiphy() throws Exception{
@@ -133,14 +149,20 @@ public class Multiverse{
         this.wikiSnippet = search.getString("snippet");
     }
 
+    /* getBitcoin makes a call to the bitcoin API and sets the bitcoin variable
+     * using the response from the API
+     */
     public void getBitcoin() throws Exception{
         String url = "https://api.bitcoinaverage.com/ticker/USD/last";
         URL obj = new URL(url);
         String str = requestResponse(obj);
         this.bitcoinPrice = lastPrice / Double.parseDouble(str);
-        //System.out.println(response);
     }
 
+    /* getReddit makes two calls to the reddit API - the first one gets an
+     * article from reddit, the second looks for comments within that post and
+     * assigns them to the redditComments variable
+     */
     public void getReddit() throws Exception{
         String word = getFirstWord(this.stockName);
         String url = "http://www.reddit.com/search.json?q=" + word + "&time=week";
@@ -157,19 +179,21 @@ public class Multiverse{
         org.json.JSONArray jsonArray = new org.json.JSONArray(str2);
 
 
-          org.json.JSONObject temp = jsonArray.getJSONObject(1);
-          org.json.JSONObject parData = temp.getJSONObject("data");
-          //org.json.JSONArray jsonArr = new org.json.JSONArray(str);
-          org.json.JSONArray jsonArray2 = parData.getJSONArray("children");
-          int vall = jsonArray2.length();
-          for(int i = 0; i < vall - 1; i++){
+        org.json.JSONObject temp = jsonArray.getJSONObject(1);
+        org.json.JSONObject parData = temp.getJSONObject("data");
+        org.json.JSONArray jsonArray2 = parData.getJSONArray("children");
+        int vall = jsonArray2.length();
+        for(int i = 0; i < vall - 1; i++){
             org.json.JSONObject childData = jsonArray2.getJSONObject(i).getJSONObject("data");
             String commentVal = childData.getString("body");
             System.out.println(commentVal);
             this.redditComment += commentVal + "<br/><br/>";
-          }
+        }
     }
 
+    /* getMovies makes a call to the Rotten Tomatoes API and sets the response
+     * to values in the movieList array
+     */
     public void getMovies() throws Exception{
         String word = getFirstWord(this.stockName);
         String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hk3pwaxvf7m37dbqhh5bgmg6&q=" +
@@ -188,6 +212,9 @@ public class Multiverse{
         }
     }
 
+    /* getNYT makes a call to the New York Times API and sets the NYT variable
+     * to an article snippet, while linking it to the actual article itself
+     */
     public void getNYT() throws Exception{
         String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
         this.stockName + "&begin_date=20130101&end_date=20141018&api-key=77a7c6c23825ba8ad653d97b02edefd3%3A2%3A70027345";
@@ -222,6 +249,9 @@ public class Multiverse{
 
     /****************************** Utilities ********************************/
 
+    /* getFirstWord takes in a string of text and returns all characters before
+     * the first space character
+     */
     private String getFirstWord(String text) {
         if (text.indexOf(' ') > -1) {
             return text.substring(0, text.indexOf(' ')); // Extract first word.
@@ -230,6 +260,10 @@ public class Multiverse{
         }
     }
 
+    /* requestResponse takes in a URL and makes a get request to that URL, then
+     * returns the response as a string to the caller. It is a caught runtime
+     * excpetion for the call to be an error
+     */
     private String requestResponse(URL url) throws Exception{
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
